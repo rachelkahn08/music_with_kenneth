@@ -1,16 +1,16 @@
 var gulp = require('gulp'),
-  autoprefixer = require('gulp-autoprefixer');
   jshint = require('gulp-jshint'),
+  uglify = require('gulp-uglify'),
   rename = require('gulp-rename'),
   concat = require('gulp-concat'),
+  del = require('del'),
   scss = require('gulp-sass'),
   sourcemaps = require('gulp-sourcemaps'),
-  uglify = require('gulp-uglify'),
   cssnano = require('gulp-cssnano'),
   plumber = require('gulp-plumber'),
   notify = require('gulp-notify'),
   imagemin = require('gulp-imagemin'),
-  
+  autoprefixer = require('gulp-autoprefixer');
 
 var browserSync = require('browser-sync').create();
 
@@ -47,7 +47,7 @@ gulp.task('styles', function() {
 });
 
 gulp.task('styles-min', ['styles'], function() {
-  return gulp.src('assets/css/main.css')
+  return gulp.src('assets/css/index.css')
   .pipe(plumber({errorHandler: errorHandler}))
   .pipe(sourcemaps.init())
   .pipe(cssnano())
@@ -63,13 +63,13 @@ gulp.task('scripts', function() {
   .pipe(jshint())
   .pipe(jshint.reporter('default'))
   .pipe(sourcemaps.init())
-  .pipe(concat('main.js'))
+  .pipe(concat('index.js'))
   .pipe(sourcemaps.write())
   .pipe(gulp.dest('assets/js'));
 });
 
 gulp.task('scripts-min', ['scripts'], function() {
-  return gulp.src('assets/js/main.js')
+  return gulp.src('assets/js/index.js')
   .pipe(plumber())
   .pipe(sourcemaps.init())
   .pipe(rename({suffix: '.min'}))
@@ -85,6 +85,7 @@ gulp.task('clean', function() {
 gulp.task('hi', function() {
   console.log('hi there');
 });
+
 
 gulp.task('default', ['clean', 'styles-min', 'scripts-min', 'browserSync'], function() {
   gulp.watch('src/scss/**/*.s*ss', ['styles-min']);
