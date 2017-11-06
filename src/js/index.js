@@ -68,7 +68,6 @@ class Note {
 		this.oscillator = audioCtx.createOscillator();
 		this.oscillator.type = 'sine';
 		this.oscillator.frequency.value = frequency; // value in hertz
-		this.oscillator.start();
 
 		this.gainNode = audioCtx.createGain();
 		this.gainNode.gain.value = 0.0;
@@ -77,10 +76,15 @@ class Note {
 		this.gainNode.connect(audioCtx.destination);
 	}
 	on() {
-		this.gainNode.gain.value = 0.2;
+		this.gainNode.gain.setValueAtTime(0, this.context.currentTime);
+		this.gainNode.gain.linearRampToValueAtTime(3, this.context.currentTime + 0.01);
+		        
+		this.oscillator.start(this.context.currentTime);
+		this.stop(this.context.currentTime);
 	}
 	off() {
-		this.gainNode.gain.value = 0;
+		this.gainNode.gain.exponentialRampToValueAtTime(0.001, this.context.currentTime + 1);
+        this.oscillator.stop(this.context.currentTime + 1);
 	}
 }
 
@@ -385,30 +389,105 @@ class Scale {
 	}
 }
 
-let defaultScale = new Scale({
-	rootNote: c2,
-	scaleName: 'major',
-	numberOfOctaves: 2
-});
+var App = (function(params) {
+	let shared = {};
 
-	defaultScale = defaultScale.generate();	
+	var defaultParams = {
+		rootNote: c2,
+		scaleName: 'major',
+		numberOfOctaves: 2,
+		bpm: 100,
+		duration: 6,
+		signature: [4, 4],
+		numberOfOctaves: 2,
+	};
+
+	if (!params) {
+		params = defaultParams;
+	} 
+
+	let scale = new Scale(params), 
+		bpm = params.bpm,
+		duration = params.duration,
+		signature = params.signature,
+		numberOfOctaves = params.numberOfOctaves,
+		beats = signature[0],
+		measure = signature[1],
+		numberOfBeats = duration*beats;
+
+		scale = scale.generate();
 
 
-class App {
-	constructor(params) {
-		if (params) {
-			this.scale = params.scale;
-			this.bpm = params.bpm;
-			this.measures = params.measures;
-			this.signature = params.signature;
-		} else {
-			this.scale = [130.81, 146.83, 164.81, 174.61, 196, 220, 246.94, 261.63, 523.25, 587.33, 659.25, 698.46, 783.99, 880, 987.77, 1046.5];
-			this.bpm = 100;
-			this.measures = 6;
-			this.signature = '4_4';
-		}	
+	function generatePlayerArray(params) {
+		var playerArray = [];
+		console.log(scale.length);
+		
+		let index = 0;
+		let row = 0;
+		let column = 0;
+
+		for (var x = 0; x <= numberOfBeats; x++) {
+
+			playerArray.push([]);
+
+			for (var y = 0; y < scale.length; y++) {
+				//rows (increase index number by one)
+
+				if (index == scale.length) {
+					index = 0;
+				}
+				
+				playerArray[x][y] = new Note(scale[index]);
+			}
+		}
+
+		// var noises = [];
+// for (var x = 0; x <= 15; x++) {
+// 	noises.push([]);
+
+// 	for (var y = 0; y <= 15; y++) {
+// 		var param = {};
+// 		var noiseId;
+
+// 		if ( x < 10 && y < 10 ) {
+// 			noiseId = `0${x}_0${y}`;
+// 		} else if ( x < 10 && y >= 10 ) {
+// 			noiseId = `0${x}_${y}`;
+// 		} else if ( x >= 10 && y >= 10 ) { 
+// 			noiseId = `${x}_${y}`;
+// 		}
+
+// 		param.Noise = new Noise(20 * y);
+// 		param.noiseId = noiseId;
+
+// 		var noiseVisualElement = new NoiseVisualElement(param);
+// 		noises[x][y] = new NoiseSwitch(noiseVisualElement);
+
+// 	}
+// }
+		return playerArray;
 	}
-}
+
+	function generatePlayer() {
+		// let width = this.measures*this.beats;
+		// let height = (this.scale.length / this.numberOfOctaves);
+		const columns = length*beats;
+		const rows = length/numberOfOctaves;
+	}
+
+	function makeColumn() {
+		const numberOfRows = scale.length/numberOfOctaves;
+		let column = document.createElement('div');
+
+	}
+
+	function updatePlayer() {
+
+	}
+
+	shared.generatePlayerArray = generatePlayerArray;
+	return shared;
+}());
 
 // for (var x = 0; x <= 15; x++) {
 // 	noises.push([]);

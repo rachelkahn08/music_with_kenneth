@@ -13,7 +13,7 @@
 	</head>
 	<body>
 		<form action="">
-			Select Scale Type:
+			Scale Type:
 			<select type="select" name="scale" id="scale">
 				<option value="major">Major</option>
 				<option value="minor">Minor</option>
@@ -25,9 +25,31 @@
 				<option value="chord_minor">Minor Chord</option>
 				<option value="chord_sus">Suspended Chord</option>
 			</select>
-
+			Root Note:
+			<select name="roots" id="roots">
+				<option value="c">C</option>
+				<option value="cs">C#</option>
+				<option value="d">D</option>
+				<option value="ds">D#</option>
+				<option value="e">E</option>
+				<option value="f">F</option>
+				<option value="fs">F#</option>
+				<option value="g">G</option>
+				<option value="gs">G#</option>
+				<option value="a">A</option>
+				<option value="as">A#</option>
+				<option value="b">B</option>
+			</select>
+			Number of Octaves:
+			<input type="number" min="1" max="3" id="numberOfOctaves" placeholder="2">
+			<button id="menuSubmit">Update</button>
 		</form>
-
+		<main id="app">
+			<form action="" id="appControls">
+				<button id="upOctave">One Octave Up</button>
+				<button id="downOctave">One Octave Down</button>
+			</form>
+		</main>
 		<script src="assets/js/index.js"></script>
 	</body>
 </html>
