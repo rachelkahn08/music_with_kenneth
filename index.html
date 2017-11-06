@@ -7,14 +7,248 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
 		<link rel="stylesheet" href="assets/css/index.css">
+
 	</head>
 
 	</head>
 	<body>
 
-		<div id="c">C</div>
-		<!-- <div id="a">A</div> -->
+		<form action="">
+			<select name="scale" id="scale">
+				<option value="pentatonic">Major Pentatonic</option>
+				<option value="pentatonic_minor">Minor Pentatonic</option>
+				<option value="major">Major Diatonic</option>
+				<option value="minor">Minor Diatonic</option>
+				<option value="well">Well-Tempered</option>
 
+				<!-- schulter_diat7	Diatonic scale, symmetrical tetrachords based on 14/11 and 13/11 triads
+					pelogic2	Pelogic temperament, g=677.0 in cycle of fifths order
+
+					bohlen_h_ji	Bohlen's harmonic scale, just version
+				 -->
+
+			<!-- 
+
+					temp12w2b	The fifths on white keys beat twice the amount of fifths on black keys	12
+					indian-raja	A folk scale from Rajasthan, India
+					^^^
+
+					marpurg-t11	Marpurg's temperament nr.11, 6 tempered fifths
+					12-22	Hexachordal 12-tone scale in 22-tET
+
+					
+					neutr_pent2	Quasi-Neutral Pentatonic 2, 15/13 x 52/45 in each trichord, after Dudon	5 
+
+					temp19lst2	Cycle of 19 least squares thirds 5/4, 3/2 (5), 6/5 (4)	19
+					temp12s3	1/3 synt. comma "well"-temperament. OdC 1999	12
+					
+					temp12ebfr	Exact values of equal beating temperament of Best Factory Tuners (1840)	12
+					temp12p8a	1/8-Pyth. comma well temperament, consecutive just fifths	12
+					temp12ebf4	Eleven equal beating fifths and just fourth	12
+					temp6	Tempered wholetone scale with approximations to 5/4 (4), 7/5 (4) and 7/4 (1)	6
+					temp12coh3	Differential coherent scale, interval=3, OdC, 2003	12
+
+
+					
+
+
+					keenan3j	Chain of 11 nearly just 19-tET minor thirds, Dave Keenan, 1-Jul-99
+					mandelbaum5	Mandelbaum's 5-limit 19-tone scale, kleismic detempered circle of minor thirds	19
+					mandelbaum7	Mandelbaum's 7-limit 19-tone scale	19
+					temp15mt	Cycle of 15 minor thirds, Petr Parizek
+					temp17ebf	Cycle of 17 equal beating fifths	17
+					temp17ebs	Cycle of 17 equal beating sevenths	17
+					temp17fo2	Fifth beats twice octave
+					temp19k8	Chain of 19 minor thirds tempered by 1/8 kleisma
+					temp22ebf	Cycle of 22 equal beating fifths
+					
+
+					
+					h10_27	10-tET harmonic approximation, fundamental=27	10
+					h12_24	12-tET harmonic approximation, fundamental=24	12
+					h14_27	14-tET harmonic approximation, fundamental=27	14
+					h15_24	15-tET harmonic approximation, fundamental=24
+					
+					
+					
+					
+					pyth_7h	Pythagorean 7-tone with whole tones divided harmonically
+					
+					smithgw_rectoo	Hahn-reduced circle of fifths via <12 19 27 34| kernel
+					temp10coh	Differential coherent 10-tone scale, OdC, 2003	10
+					temp10ebss	Cycle of 10 equal "beating" 15/14's	10
+					temp11ebst	Cycle of 11 equal beating 9/7's	11
+
+					
+
+					temp12ebf	Equal beating temperament tuned by The Best Factory Tuners (1840)	12
+					
+					temp12ebfo	Equal beating fifths and fifth beats twice octave at C	12
+					temp12ebfp	All fifths except G#-Eb beat same as 700 c. C-G	12
+					
+					temp12ep	Pythagorean comma distributed equally over octave and fifth: 1/19-Pyth comma	12
+					temp12fo1o	Fifth beats same octave opposite	12
+					temp12fo2o	Fifth beats twice octave opposite	12
+					temp12p10	1/10-Pyth. comma well temperament	12
+					temp12p6	Modified 1/6-Pyth. comma temperament	12
+					temp12p8	1/8-Pyth. comma well temperament	12
+					
+					temp12s17	4/17th synt. comma "well"-temperament. OdC 1999	12
+					
+					temp12septendec	Scale with 18/17 steps	12
+					
+					temp15coh	Differential coherent 15-tone scale, OdC, 2003	15
+					temp15ebmt	Cycle of 15 equal beating minor thirds	15
+					temp15ebsi	Cycle of 15 equal beating major sixths	15
+					temp15mt	Cycle of 15 minor thirds, Petr Parizek	15
+					temp16d3	Cycle of 16 thirds tempered by 1/3 small diesis	16
+					temp16d4	Cycle of 16 thirds tempered by 1/4 small diesis	16
+					temp16ebs	Cycle of 16 equal beating sevenths	16
+					temp16ebt	Cycle of 16 equal beating thirds	16
+					
+					temp17c10	Cycle of 17 fifths tempered by 1/10 of "17-tET comma"	17
+					temp17c11	Cycle of 17 fifths tempered by 1/11 of "17-tET comma"	17
+					temp17c12	Cycle of 17 fifths tempered by 1/12 of "17-tET comma"	17
+					temp17c13	Cycle of 17 fifths tempered by 1/13 of "17-tET comma"	17
+					temp17c14	Cycle of 17 fifths tempered by 1/14 of "17-tET comma"	17
+					
+					temp17ebf	Cycle of 17 equal beating fifths	17
+					temp17ebs	Cycle of 17 equal beating sevenths	17
+					temp17fo2	Fifth beats twice octave	17
+
+					temp17nt	17-tone temperament with 27/22 neutral thirds	17
+					temp17s	Cycle of 17 fifths tempered by 2 schismas. Schulter, Tuning List 10-9-98	17
+					temp19d5	Cycle of 19 thirds tempered by 1/5 small diesis. Third = 3\5	19
+					temp19ebf	Cycle of 19 equal beating fifths	19
+					temp19ebmt	Cycle of 19 equal beating minor thirds	19
+					temp19ebo	Cycle of 19 equal beating octaves in twelfth	19
+					temp19ebt	Cycle of 19 equal beating thirds	19
+					temp19k10	Chain of 19 minor thirds tempered by 1/10 kleisma	19
+					temp19k3	Chain of 19 minor thirds tempered by 1/3 kleisma	19
+					temp19k4	Chain of 19 minor thirds tempered by 1/4 kleisma	19
+					temp19k5	Chain of 19 minor thirds tempered by 1/5 kleisma	19
+					temp19k6	Chain of 19 minor thirds tempered by 1/6 kleisma	19
+					temp19k7	Chain of 19 minor thirds tempered by 1/7 kleisma	19
+					temp19k8	Chain of 19 minor thirds tempered by 1/8 kleisma	19
+					temp19k9	Chain of 19 minor thirds tempered by 1/9 kleisma	19
+					temp19lst	Cycle of 19 least squares thirds 5/4^5 = 3/2	19
+					
+					temp21ebs	Cycle of 21 equal beating sevenths	21
+					temp22ebf	Cycle of 22 equal beating fifths	22
+					temp22ebt	Cycle of 22 equal beating thirds	22
+					
+
+					temp23ebs	Cycle of 23 equal beating major sixths	23
+					temp24ebaf	Cycle of 24 equal beating 11/8's	24
+					
+					temp24ebf	24-tone ET with 23 equal beatings fifths. Fifth on 17 slightly smaller.	24
+
+
+					temp25ebt	Cycle of 25 equal beating thirds	25
+
+					temp26ebf	Cycle of 26 equal beating fifths	26
+					temp26ebmt	Cycle of 26 equal beating minor thirds	26
+					temp26ebs	Cycle of 26 equal beating sevenths	26
+					temp27c8	Cycle of 27 fifths tempered by 1/8 of difference between augm. 2nd and 5/4	27
+					temp27eb2	Cycle of 27 fourths, 5/4 beats twice 4/3	27
+					temp28ebt	Cycle of 28 equal beating thirds	28
+					temp29c14	Cycle of 29 fifths 1/14 comma positive	29
+					temp29ebf	Cycle of 29 equal beating fifths	29
+
+
+					temp31c51	Cycle of 31 51/220-comma tempered fifths (twice diff. of 31-tET and 1/4-comma)	31
+					temp31coh	Differential coherent 31-tone scale, interval=8, OdC, 2003	31
+					temp31eb1	Cycle of 31 thirds, 3/2 beats equal 5/4. Third 1/18 synt. comma higher	31
+					temp31eb1a	Cycle of 31 thirds, 5/4 beats equal 7/4	31
+
+					temp31eb2	Cycle of 31 thirds, 3/2 beats twice 5/4	31
+
+					temp31eb2a	Cycle of 31 thirds, 5/4 beats twice 3/2	31
+
+					temp31eb2b	Cycle of 31 thirds, 5/4 beats twice 7/4 (7/4 beats twice 5/4 gives 31-tET)	31
+
+					temp31ebf	Cycle of 31 equal beating fifths	31
+					temp31ebf2	Cycle of 31 fifths, 3/2 beats equal 7/4	31
+					temp31ebs	Cycle of 31 equal beating sevenths	31
+					temp31ebs1	Cycle of 31 sevenths, 3/2 beats equal 7/4. 17/9 schisma fifth	31
+
+					temp31ebs2	Cycle of 31 sevenths, 3/2 beats twice 7/4. Almost 31-tET	31
+
+					temp31ebsi	Cycle of 31 equal beating major sixths	31
+					temp31ebt	Cycle of 31 equal beating thirds	31
+
+
+					temp31g4	Cycle of 31 sevenths tempered by 1/4 gamelan residue	31
+					temp31g5	Cycle of 31 sevenths tempered by 1/5 gamelan residue	31
+					temp31g6	Cycle of 31 sevenths tempered by 1/6 gamelan residue	31
+					temp31g7	Cycle of 31 sevenths tempered by 1/7 gamelan residue	31
+					temp31h10	Cycle of 31 fifths tempered by 1/10 Harrison's comma	31
+					temp31h11	Cycle of 31 fifths tempered by 1/11 Harrison's comma	31
+					temp31h12	Cycle of 31 fifths tempered by 1/12 Harrison's comma	31
+					temp31h8	Cycle of 31 fifths tempered by 1/8 Harrison's comma	31
+					temp31h9	Cycle of 31 fifths tempered by 1/9 Harrison's comma	31
+
+					temp31mt	Cycle of 31 square root of 5/4 meantones	31
+
+					temp31to	Third beats with opposite equal rate as octave	31
+					temp31w10	Cycle of 31 thirds tempered by 1/10 Wuerschmidt comma	31
+					temp31w11	Cycle of 31 thirds tempered by 1/11 Wuerschmidt comma	31
+					temp31w12	Cycle of 31 thirds tempered by 1/12 Wuerschmidt comma	31
+					temp31w13	Cycle of 31 thirds tempered by 1/13 Wuerschmidt comma	31
+					temp31w14	Cycle of 31 thirds tempered by 1/14 Wuerschmidt comma	31
+					temp31w15	Cycle of 31 thirds tempered by 1/15 Wuerschmidt comma, almost 31-tET	31
+					temp31w8	Cycle of 31 thirds tempered by 1/8 Wuerschmidt comma	31
+					temp31w9	Cycle of 31 thirds tempered by 1/9 Wuerschmidt comma	31
+
+					temp32ebf	Cycle of 32 equal beating fifths	32
+					temp33a12	Cycle of 33 fifths tempered by 1/12 "11 fifths" comma	33
+					temp34eb2a	Cycle of 34 thirds, 5/4 beats twice 3/2	34
+					temp34ebsi	Cycle of 34 equal beating major sixths	34
+					temp34ebt	Cycle of 34 equal beating thirds	34
+
+					temp34w10	Cycle of 34 thirds tempered by 1/10 Wuerschmidt comma	34
+					temp34w5	Cycle of 34 thirds tempered by 1/5 Wuerschmidt comma	34
+					temp34w6	Cycle of 34 thirds tempered by 1/6 Wuerschmidt comma	34
+					temp34w7	Cycle of 34 thirds tempered by 1/7 Wuerschmidt comma	34
+					temp34w8	Cycle of 34 thirds tempered by 1/8 Wuerschmidt comma	34
+					temp34w9	Cycle of 34 thirds tempered by 1/9 Wuerschmidt comma	34
+					temp35ebsi	Cycle of 35 equal beating major sixths	35
+					temp37ebs	Cycle of 37 equal beating sevenths	37
+					temp37ebt	Cycle of 37 equal beating thirds	37
+					temp3ebt	Cycle of 3 equal beating thirds	3
+					temp4ebmt	Cycle of 4 equal beating minor thirds	4
+					temp4ebsi	Cycle of 4 equal beating major sixths	4
+					temp53ebs	Cycle of 53 equal beating harmonic sevenths	53
+					temp53ebsi	Cycle of 53 equal beating major sixths	53
+					temp53ebt	Cycle of 53 equal beating thirds	53
+					temp57ebs	Cycle of 57 equal beating harmonic sevenths	57
+					temp59ebt	Cycle of 59 equal beating thirds	59
+					temp5ebf	Cycle of 5 equal beating fifths	5
+					temp5ebs	Cycle of 5 equal beating harmonic sevenths	5
+
+					
+
+					temp65ebf	Cycle of 65 equal beating fifths	65
+					temp65ebt	Cycle of 65 equal beating thirds	65
+					temp6eb2	Cycle of 6 equal beating 9/8 seconds	6
+
+					temp6s	Cycle of 6 tempered harmonic sevenths, 6/5 and 4/3 minimax, Op de Coul, 2002	6
+
+					temp6teb	Cycle of 6 equal beating 6/5's in a twelfth	6
+					temp7-5ebf	7 equal beating fifths on white, 5 equal beating fifths on black	12
+					temp7ebf	Cycle of 7 equal beating fifths	7
+					temp7ebnt	Cycle of 7 equal beating 11/9 neutral thirds	7
+					temp8eb3q	Cycle of 8 equal "beating" 12/11's	8
+					temp9ebmt	Cycle of 9 equal beating 7/6 septimal minor thirds	9
+
+					ceb88f	88 cents steps with equal beating fifths	13
+					ceb88s	88 cents steps with equal beating sevenths	14
+					ceb88t	88 cents steps with equal beating 7/6 thirds
+	-->
+			</select>
+		</form>
+	
+		<script src="assets/js/tune.js"></script>
 		<script src="assets/js/index.js"></script>
 	</body>
 </html>
