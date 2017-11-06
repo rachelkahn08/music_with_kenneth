@@ -410,6 +410,30 @@ class App {
 	}
 }
 
+// for (var x = 0; x <= 15; x++) {
+// 	noises.push([]);
+
+// 	for (var y = 0; y <= 15; y++) {
+// 		var param = {};
+// 		var noiseId;
+
+// 		if ( x < 10 && y < 10 ) {
+// 			noiseId = `0${x}_0${y}`;
+// 		} else if ( x < 10 && y >= 10 ) {
+// 			noiseId = `0${x}_${y}`;
+// 		} else if ( x >= 10 && y >= 10 ) { 
+// 			noiseId = `${x}_${y}`;
+// 		}
+
+// 		param.Noise = new Noise(20 * y);
+// 		param.noiseId = noiseId;
+
+// 		var noiseVisualElement = new NoiseVisualElement(param);
+// 		noises[x][y] = new NoiseSwitch(noiseVisualElement);
+
+// 	}
+// }
+
 
 
 
