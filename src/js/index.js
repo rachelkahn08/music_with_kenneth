@@ -1,11 +1,61 @@
 var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-const frequencies = [130.81,138.59,146.83,155.56,164.81,174.61,185.00,196.00,207.65,220.00,233.08,246.94,261.63,277.18,293.66, 311.13,329.63,349.23,369.99,392.00,415.30,440.00, 466.16,493.88,523.25,554.37,587.33,622.25,659.25,698.46,739.99,783.99,830.61,880.00,932.33,987.77,1046.50,1108.73,1174.66,1244.51,1318.51,1396.91,1479.98,1567.98,1661.22,1760.00,1864.66,1975.53,];
+const frequencies = [	
+	130.81,
+	138.59,
+	146.83,
+	155.56,
+	164.81,
+	174.61,
+	185.00,
+	196.00,
+	207.65,
+	220.00,
+	233.08,
+	246.94,
+	261.63,
+	277.18,
+	293.66,
+	311.13,
+	329.63,
+	349.23,
+	369.99,
+	392.00,
+	415.30,
+	440.00,
+	466.16,
+	493.88,
+	523.25,
+	554.37,
+	587.33,
+	622.25,
+	659.25,
+	698.46,
+	739.99,
+	783.99,
+	830.61,
+	880.00,
+	932.33,
+	987.77,
+	1046.50,
+	1108.73,
+	1174.66,
+	1244.51,
+	1318.51,
+	1396.91,
+	1479.98,
+	1567.98,
+	1661.22,
+	1760.00,
+	1864.66,
+	1975.53,
+];
 
 const 	c2 = frequencies[0],
 		cs2 = frequencies[1],
 		d2 = frequencies[2],
 		ds2 = frequencies[3],
+		
 		e2 = frequencies[4],
 		f2 = frequencies[5],
 		fs2 = frequencies[6],
@@ -13,11 +63,13 @@ const 	c2 = frequencies[0],
 		gs2 = frequencies[8],
 		a2 = frequencies[9],
 		as2 = frequencies[10],
+		
 		b2 = frequencies[11],
 		c3 = frequencies[12],
 		cs3 = frequencies[13],
 		d3 = frequencies[14],
 		ds3 = frequencies[15],
+		
 		e3 = frequencies[16],
 		f3 = frequencies[17],
 		fs3 = frequencies[18],
@@ -25,11 +77,13 @@ const 	c2 = frequencies[0],
 		gs3 = frequencies[20],
 		a3 = frequencies[21],
 		as3 = frequencies[22],
+		
 		b3 = frequencies[23],
 		c4 = frequencies[24],
 		cs4 = frequencies[25],
 		d4 = frequencies[26],
 		ds4 = frequencies[27],
+		
 		e4 = frequencies[28],
 		f4 = frequencies[29],
 		fs4 = frequencies[30],
@@ -37,11 +91,13 @@ const 	c2 = frequencies[0],
 		gs4 = frequencies[32],
 		a4 = frequencies[33],
 		as4 = frequencies[34],
+		
 		b4 = frequencies[35],
 		c5 = frequencies[36],
 		cs5 = frequencies[37],
 		d5 = frequencies[38],
 		ds5 = frequencies[39],
+		
 		e5 = frequencies[40],
 		f5 = frequencies[41],
 		fs5 = frequencies[42],
@@ -49,11 +105,13 @@ const 	c2 = frequencies[0],
 		gs5 = frequencies[44],
 		a5 = frequencies[45],
 		as5 = frequencies[46],
+		
 		b5 = frequencies[47],
 		c6 = frequencies[48],
 		cs6 = frequencies[49],
 		d6 = frequencies[50],
 		ds6 = frequencies[51],
+		
 		e6 = frequencies[52],
 		f6 = frequencies[53],
 		fs6 = frequencies[54],
@@ -61,6 +119,7 @@ const 	c2 = frequencies[0],
 		gs6 = frequencies[56],
 		a6 = frequencies[57],
 		as6 = frequencies[58],
+		
 		b6 = frequencies[59];
 
 class Note {
@@ -74,17 +133,21 @@ class Note {
 
 		this.oscillator.connect(this.gainNode);
 		this.gainNode.connect(audioCtx.destination);
+		this.context = audioCtx;
 	}
-	on() {
+
+	play() {
 		this.gainNode.gain.setValueAtTime(0, this.context.currentTime);
-		this.gainNode.gain.linearRampToValueAtTime(3, this.context.currentTime + 0.01);
+		this.gainNode.gain.linearRampToValueAtTime(3, this.context.currentTime + 0.35);
 		        
 		this.oscillator.start(this.context.currentTime);
-		this.stop(this.context.currentTime);
+		this.stop();
 	}
-	off() {
-		this.gainNode.gain.exponentialRampToValueAtTime(0.001, this.context.currentTime + 1);
-        this.oscillator.stop(this.context.currentTime + 1);
+
+	stop() {
+		let stopTime = this.context.currentTime + 3;
+		this.gainNode.gain.exponentialRampToValueAtTime(0.001, stopTime);
+        this.oscillator.stop(stopTime + 0.05);
 	}
 }
 
@@ -104,13 +167,12 @@ class Scale {
 
 		const w = 2;
 		const h = 1;
-		const o = 12;
+		const o = 13;
 
 		if (this.scaleName == 'major') {
 			// R, W, W, H, W, W, W, H
 
 			for (var i = 0; i < this.numberOfOctaves; i++) {
-				x = x + (o * i);
 
 				this.scale.push(frequencies[x]);
 
@@ -140,28 +202,16 @@ class Scale {
 
 				x = x + h;
 
-				this.scale.push(frequencies[x]);
+				if (i == this.numberOfOctaves - 1) {
+					this.scale.push(frequencies[x]);
+				}
 			}
-			// this.scale.push(frequencies[i])
-			// this.scale.push(frequencies[i + 2])
-			// this.scale.push(frequencies[i + 4])
-			// this.scale.push(frequencies[i + 5])
-			// this.scale.push(frequencies[i + 7])
-			// this.scale.push(frequencies[i + 9])
-			// this.scale.push(frequencies[i + 11])
-			// this.scale.push(frequencies[i + 12])
-			// this.scale.push(frequencies[i + 14])
-			// this.scale.push(frequencies[i + 16])
-			// this.scale.push(frequencies[i + 17])
-			// this.scale.push(frequencies[i + 19])
-			// this.scale.push(frequencies[i + 21])
 		}
 
 		if (this.scaleName == 'minor') { 
 			// R, W, H, W, W, H, W, W
 
 			for (var i = 0; i < this.numberOfOctaves; i++) {
-				x = x + (o * i);
 
 				this.scale.push(frequencies[x]);
 
@@ -191,29 +241,16 @@ class Scale {
 
 				x = x + w;
 
-				this.scale.push(frequencies[x]);
+				if (i == this.numberOfOctaves - 1) {
+					this.scale.push(frequencies[x]);
+				}
 			}
-			// this.scale.push(frequencies[i])
-			// this.scale.push(frequencies[i + 2])
-			// this.scale.push(frequencies[i + 3])
-			// this.scale.push(frequencies[i + 5])
-			// this.scale.push(frequencies[i + 7])
-			// this.scale.push(frequencies[i + 8])
-			// this.scale.push(frequencies[i + 10])
-			// this.scale.push(frequencies[i + 12])
-			// this.scale.push(frequencies[i + 14])
-			// this.scale.push(frequencies[i + 15])
-			// this.scale.push(frequencies[i + 17])
-			// this.scale.push(frequencies[i + 19])
-			// this.scale.push(frequencies[i + 20])
 		}
 
 		if (this.scaleName == 'minor_harmonic') { 
 			// R, W, H, W, W, H, 1 1/2, H
 
 			for (var i = 0; i < this.numberOfOctaves; i++) {
-				x = x + (o * i);
-
 				this.scale.push(frequencies[x]);
 
 				x = x + w;
@@ -242,16 +279,17 @@ class Scale {
 
 				x = x + h;
 
-				this.scale.push(frequencies[x]);
+				if (i == this.numberOfOctaves - 1) {
+					this.scale.push(frequencies[x]);
+				}
 			}
 		}
 
 		if (this.scaleName == 'pentatonic_major') {
 			// W W 1-1/2 step W 1-1/2 step
+			this.numberOfOctaves = this.numberOfOctaves*1.5;
 
 			for (var i = 0; i < this.numberOfOctaves; i++) {
-				x = x + (o * i);
-
 				this.scale.push(frequencies[x]);
 
 				x = x + w;
@@ -272,15 +310,17 @@ class Scale {
 
 				x = x + w + h;
 
-				this.scale.push(frequencies[x]);
+				if (i == this.numberOfOctaves - 1) {
+					this.scale.push(frequencies[x]);
+				}
 			}	
 		}
 
 		if (this.scaleName == 'pentatonic_minor') {
 			// R, 1 1/2, W, W, 1 1/2, W
+			this.numberOfOctaves = this.numberOfOctaves*1.5;
 
 			for (var i = 0; i < this.numberOfOctaves; i++) {
-				x = x + (o * i);
 
 				this.scale.push(frequencies[x]);
 
@@ -302,22 +342,24 @@ class Scale {
 
 				x = x + w;
 
-				this.scale.push(frequencies[x]);
+				if (i == this.numberOfOctaves - 1) {
+					this.scale.push(frequencies[x]);
+				}
 			}	
 		}
 
 		if (this.scaleName == 'fifths') {
 			// R, 7
-			this.numberOfOctaves = this.numberOfOctaves * 2;
+			this.numberOfOctaves = this.numberOfOctaves * 4.5;
 
 			for (var i = 0; i < this.numberOfOctaves; i++) {
-				x = x + (o * i);
-
 				this.scale.push(frequencies[x]);
 
-				x = x + 5;
+				x = x + 4;
 
-				this.scale.push(frequencies[x]);
+				if (i == this.numberOfOctaves) {
+					this.scale.push(frequencies[x]);
+				}
 
 			}
 		}
@@ -325,10 +367,9 @@ class Scale {
 		if (this.scaleName == 'chord_major') {
 			// R, 4, 3
 
-			this.numberOfOctaves = this.numberOfOctaves * 2;
+			this.numberOfOctaves = this.numberOfOctaves * 3;
 
 			for (var i = 0; i < this.numberOfOctaves; i++) {
-				x = x + (o * i);
 
 				this.scale.push(frequencies[x]);
 
@@ -338,19 +379,18 @@ class Scale {
 
 				x = x + 3;
 
-				this.scale.push(frequencies[x]);
-
+				if (i == this.numberOfOctaves) {
+					this.scale.push(frequencies[x]);
+				}
 			}
 		}
 
 		if (this.scaleName == 'chord_minor') {
 			// R, 3, 4
 
-			this.numberOfOctaves = this.numberOfOctaves * 2;
+			this.numberOfOctaves = this.numberOfOctaves * 3;
 
 			for (var i = 0; i < this.numberOfOctaves; i++) {
-				x = x + (o * i);
-
 				this.scale.push(frequencies[x]);
 
 				x = x + 3;
@@ -359,7 +399,9 @@ class Scale {
 
 				x = x + 4;
 
-				this.scale.push(frequencies[x]);
+				if (i == this.numberOfOctaves) {
+					this.scale.push(frequencies[x]);
+				}
 
 			}
 		}
@@ -367,11 +409,9 @@ class Scale {
 		if (this.scaleName == 'chord_sus') {
 			// R, 5, 2
 
-			this.numberOfOctaves = this.numberOfOctaves * 2;
+			this.numberOfOctaves = this.numberOfOctaves * 3;
 
 			for (var i = 0; i < this.numberOfOctaves; i++) {
-				x = x + (o * i);
-
 				this.scale.push(frequencies[x]);
 
 				x = x + 5;
@@ -380,7 +420,9 @@ class Scale {
 
 				x = x + 2;
 
-				this.scale.push(frequencies[x]);
+				if (i == this.numberOfOctaves) {
+					this.scale.push(frequencies[x]);
+				}
 
 			}
 		}
@@ -389,11 +431,88 @@ class Scale {
 	}
 }
 
+class Player {
+	constructor(params) {
+		this.numberOfBeats = params.numberOfBeats;
+		this.scale = params.scale;
+		this.notesArray = [];
+		this.idArray = [];
+	}
+
+	generatePlayerArray() {
+		let index = 0;
+		let column = 0;
+
+		for (var x = 0; x <= this.numberOfBeats; x++) {
+			//columns (all the same index number)
+			this.notesArray.push([]);
+			this.idArray.push([]);
+
+			for (var y = 0; y < this.scale.length; y++) {
+				//rows (increase index number by one)
+
+				var columnString;
+				var indexString;
+
+				if (index == this.scale.length) {
+					index = 0;
+				}
+
+				if (column < 10) {
+					columnString = `0${column}`;
+				} else {
+					columnString = column;
+				}
+
+				if (index < 10) {
+					indexString = `0${index}`;
+				} else {
+					indexString = index;
+				}
+
+
+				let arrayObject = {};
+				arrayObject.id = columnString+'_'+indexString;
+				arrayObject.frequency = this.scale[index];
+				arrayObject.switchOnOff = this.switchOnOff.bind(arrayObject);
+
+				let noteButton = document.createElement('button');
+					noteButton.innerHTML = arrayObject.frequency;
+					noteButton.classList.add('player__button');
+
+				arrayObject.noteButton = noteButton;
+
+				this.notesArray[x][y] = arrayObject;
+				this.idArray[x][y] = arrayObject.id;
+
+
+				
+				index++;
+			}
+
+			column++;
+		}
+		
+		return {idArray: this.idArray, notesArray: this.notesArray};
+	}
+
+	switchOnOff(e) {
+		e.preventDefault();
+		let noteButton = this.noteButton;
+		if (noteButton.classList.contains('active')) {
+			noteButton.classList.remove('active');
+		} else {
+			noteButton.classList.add('active');
+		}
+		console.dir(this);
+	}
+}
+
 var App = (function(params) {
 	let shared = {};
 
-	var defaultParams = {
-		rootNote: c2,
+	const defaultParams = {
+		rootNote: c3,
 		scaleName: 'major',
 		numberOfOctaves: 2,
 		bpm: 100,
@@ -406,205 +525,85 @@ var App = (function(params) {
 		params = defaultParams;
 	} 
 
-	let scale = new Scale(params), 
-		bpm = params.bpm,
-		duration = params.duration,
-		signature = params.signature,
-		numberOfOctaves = params.numberOfOctaves,
-		beats = signature[0],
-		measure = signature[1],
-		numberOfBeats = duration*beats;
+	params.beats = params.signature[0];
+	params.measure = params.signature[1];
+	params.numberOfBeats = params.duration*params.beats;
 
-		scale = scale.generate();
+	const scale = new Scale(params);
 
+	params.scale = scale.generate();
 
-	function generatePlayerArray(params) {
-		var playerArray = [];
-		console.log(scale.length);
-		
-		let index = 0;
-		let row = 0;
-		let column = 0;
-
-		for (var x = 0; x <= numberOfBeats; x++) {
-
-			playerArray.push([]);
-
-			for (var y = 0; y < scale.length; y++) {
-				//rows (increase index number by one)
-
-				if (index == scale.length) {
-					index = 0;
-				}
-				
-				playerArray[x][y] = new Note(scale[index]);
-			}
-		}
-
-		// var noises = [];
-// for (var x = 0; x <= 15; x++) {
-// 	noises.push([]);
-
-// 	for (var y = 0; y <= 15; y++) {
-// 		var param = {};
-// 		var noiseId;
-
-// 		if ( x < 10 && y < 10 ) {
-// 			noiseId = `0${x}_0${y}`;
-// 		} else if ( x < 10 && y >= 10 ) {
-// 			noiseId = `0${x}_${y}`;
-// 		} else if ( x >= 10 && y >= 10 ) { 
-// 			noiseId = `${x}_${y}`;
-// 		}
-
-// 		param.Noise = new Noise(20 * y);
-// 		param.noiseId = noiseId;
-
-// 		var noiseVisualElement = new NoiseVisualElement(param);
-// 		noises[x][y] = new NoiseSwitch(noiseVisualElement);
-
-// 	}
-// }
-		return playerArray;
-	}
+	let 	player = new Player(params);
+			playerArrays = player.generatePlayerArray();
+	const 	noteArray = playerArrays.notesArray,
+			idArray = playerArrays.idArray;
 
 	function generatePlayer() {
-		// let width = this.measures*this.beats;
-		// let height = (this.scale.length / this.numberOfOctaves);
-		const columns = length*beats;
-		const rows = length/numberOfOctaves;
+		var appPlayer = document.getElementById('appPlayer');
+
+		for (var x = 0; x < noteArray.length; x++) {
+			var column = noteArray[x];
+			var playerColumn = document.createElement('div');
+				playerColumn.classList.add('player__column');
+
+			for (var y = 0; y < column.length; y++) {
+				let noteButton = column[y].noteButton;
+					noteButton.addEventListener('click', column[y].switchOnOff);
+
+				playerColumn.appendChild(noteButton);
+			}
+
+			appPlayer.appendChild(playerColumn);
+		}
 	}
 
-	function makeColumn() {
-		const numberOfRows = scale.length/numberOfOctaves;
-		let column = document.createElement('div');
+	function playNotes() {
+		let time = 500;
 
+		let x = 0;
+
+		var playerInterval = window.setInterval(playColumn, time);
+
+		function playColumn() {
+			let columns = noteArray[x];
+			
+			for (var y = 0; y < columns.length; y++) {
+				let noteButton = columns[y].noteButton,
+					frequency = columns[y].frequency;
+
+				if (noteButton.classList.contains('active')) {
+					console.log(columns[y]);
+					noteButton.classList.add('playing');
+					var note = new Note(frequency);
+					note.play();
+
+					setTimeout(function() {
+						noteButton.classList.remove('playing');
+					}, 500);
+				} 
+			}
+
+			x++;
+
+			if (x == columns.length) {
+				x = 0;
+			}
+		}
+	}
+
+	function init() {
+		generatePlayer();
+		playNotes();
 	}
 
 	function updatePlayer() {
 
 	}
 
-	shared.generatePlayerArray = generatePlayerArray;
+	shared.init = init;
 	return shared;
 }());
 
-// for (var x = 0; x <= 15; x++) {
-// 	noises.push([]);
-
-// 	for (var y = 0; y <= 15; y++) {
-// 		var param = {};
-// 		var noiseId;
-
-// 		if ( x < 10 && y < 10 ) {
-// 			noiseId = `0${x}_0${y}`;
-// 		} else if ( x < 10 && y >= 10 ) {
-// 			noiseId = `0${x}_${y}`;
-// 		} else if ( x >= 10 && y >= 10 ) { 
-// 			noiseId = `${x}_${y}`;
-// 		}
-
-// 		param.Noise = new Noise(20 * y);
-// 		param.noiseId = noiseId;
-
-// 		var noiseVisualElement = new NoiseVisualElement(param);
-// 		noises[x][y] = new NoiseSwitch(noiseVisualElement);
-
-// 	}
-// }
-
-
-
-
-// class NoiseVisualElement {
-// 	constructor(param) {
-// 		// console.dir(param);
-// 		this.noiseNode = param.Noise;
-// 		this.noiseId = param.noiseId;
-// 		this.domElement = document.createElement('div');
-// 		this.domElement.id = this.noiseId;
-// 		this.domElement.classList.add('noiseElement');
-// 		this.domElement.classList.add('noise' + this.noiseId);
-// 		document.body.appendChild(this.domElement);
-// 	}
-// }
-
-// class NoiseSwitch {
-// 	constructor(param) {
-// 		this.noiseNode = param.noiseNode;
-// 		this.domElement = param.domElement;
-// 		this.switchOnOff = this.switchOnOff.bind(this);
-// 		this.domElement.addEventListener('click', this.switchOnOff);
-// 	}
-
-// 	switchOnOff() {
-// 		console.dir(this);
-
-// 		if (this.domElement.classList.contains('active')) {
-// 			this.domElement.classList.remove('active');
-// 			this.noiseNode.off();	
-// 		} else if (!this.domElement.classList.contains('active')) {
-// 			this.domElement.classList.add('active');
-// 			this.noiseNode.on();
-// 		}
-// 	}
-// }
-
-
-// // console.log(noises);
-
-// // WHAT NEEDS TO HAPPEN IN PLAIN ENGLISH:
-// // 1. all sounds generate
-// 	// every row has same frequency
-// 	// every column plays at the same time
-
-// // 2. loop through each column
-// // 3. check each item in each column for true/false
-// // 4. turn sound on for each item that returns true
-// // 5. 
-
-function testTones() {
-	let params = {};
-		params.rootNote = c2;
-		params.scaleName = 'major';
-		params.numberOfOctaves = 1;
-
-	let scale = new Scale(params);
-		scale = scale.generate();
-	
-	cycleTones(scale);
-}
-
-function cycleTones(scale) {
-	console.log(scale);
-
-	let tones = [];
-
-	for (var i = 0; i < scale.length + 1; i++) {
-		let tone = new Noise(scale[i]);
-		tones.push(tone);
-	}
-
-	let t = 0;
-
-	var toneInterval = setInterval(function() {
-
-		if (t <= tones.length) {
-			tones[t].on();
-		}
-
-		if (t > 0) {
-			tones[t - 1].off();
-		}
-
-		if (t == tones.length) {
-			tones[t].off();
-			clearInterval(toneInterval);
-		}
-
-		t++;
-
-	}, 500);
-}
+App.init();
 
 
