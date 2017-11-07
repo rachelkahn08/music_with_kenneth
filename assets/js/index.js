@@ -550,8 +550,8 @@ var App = (function(params) {
 	let shared = {};
 
 	const defaultParams = {
-		rootNote: c3,
-		scaleName: 'major',
+		rootNote: a2,
+		scaleName: 'pentatonic_minor',
 		numberOfOctaves: 2,
 		bpm: 100,
 		duration: 6,
