@@ -1,4 +1,11 @@
 var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+reverbjs.extend(audioCtx);
+
+var reverbUrl = "http://reverbjs.org/Library/ErrolBrickworksKiln.m4a";
+var reverbNode = audioCtx.createReverbFromUrl(reverbUrl, function() {
+  reverbNode.connect(audioCtx.destination);
+});
+
 
 const frequencies = [	
 	130.81,
@@ -124,9 +131,10 @@ const 	c2 = frequencies[0],
 
 class Note {
 	constructor(frequency) {
+		this.frequency = frequency;
 		this.oscillator = audioCtx.createOscillator();
 		this.oscillator.type = 'sine';
-		this.oscillator.frequency.value = frequency; // value in hertz
+		this.oscillator.frequency.value = this.frequency; // value in hertz
 
 		this.gainNode = audioCtx.createGain();
 		this.gainNode.gain.value = 0.0;
@@ -134,20 +142,41 @@ class Note {
 		this.oscillator.connect(this.gainNode);
 		this.gainNode.connect(audioCtx.destination);
 		this.context = audioCtx;
+		this.delay = this.randomInRange(1, 3);
+		this.play = this.play.bind(this);
+
+	}
+
+	randomInRange(from, to) {
+		var r = Math.floor(Math.random() * ( to - from ) + from);
+			r = r/1000;
+		return r;
 	}
 
 	play() {
+		let gainValue = undefined;
+
+		if (this.frequency > 1000) {
+			gainValue = 0.7;
+		} else {
+			gainValue = 0.8;
+		}
+
 		this.gainNode.gain.setValueAtTime(0, this.context.currentTime);
-		this.gainNode.gain.linearRampToValueAtTime(3, this.context.currentTime + 0.35);
+		this.gainNode.gain.linearRampToValueAtTime(gainValue, (this.context.currentTime + 0.08 + this.delay));
 		        
 		this.oscillator.start(this.context.currentTime);
 		this.stop();
 	}
 
 	stop() {
-		let stopTime = this.context.currentTime + 3;
+		let stopTime = this.context.currentTime + 2;
 		this.gainNode.gain.exponentialRampToValueAtTime(0.001, stopTime);
         this.oscillator.stop(stopTime + 0.05);
+	}
+
+	tweakStartTime() {
+		setTimeout(this.play, this.delay);
 	}
 }
 
@@ -477,6 +506,7 @@ class Player {
 				arrayObject.switchOnOff = this.switchOnOff.bind(arrayObject);
 
 				let noteButton = document.createElement('button');
+					noteButton.id = arrayObject.id;
 					noteButton.innerHTML = arrayObject.frequency;
 					noteButton.classList.add('player__button');
 
@@ -543,8 +573,11 @@ var App = (function(params) {
 
 		for (var x = 0; x < noteArray.length; x++) {
 			var column = noteArray[x];
+			console.log(column.length);
 			var playerColumn = document.createElement('div');
 				playerColumn.classList.add('player__column');
+
+			appPlayer.appendChild(playerColumn);
 
 			for (var y = 0; y < column.length; y++) {
 				let noteButton = column[y].noteButton;
@@ -553,7 +586,8 @@ var App = (function(params) {
 				playerColumn.appendChild(noteButton);
 			}
 
-			appPlayer.appendChild(playerColumn);
+			
+			//console.log('append');
 		}
 	}
 
@@ -566,6 +600,7 @@ var App = (function(params) {
 
 		function playColumn() {
 			let columns = noteArray[x];
+
 			
 			for (var y = 0; y < columns.length; y++) {
 				let noteButton = columns[y].noteButton,
@@ -575,7 +610,7 @@ var App = (function(params) {
 					console.log(columns[y]);
 					noteButton.classList.add('playing');
 					var note = new Note(frequency);
-					note.play();
+					note.tweakStartTime();
 
 					setTimeout(function() {
 						noteButton.classList.remove('playing');
@@ -585,7 +620,7 @@ var App = (function(params) {
 
 			x++;
 
-			if (x == columns.length) {
+			if (x == params.numberOfBeats) {
 				x = 0;
 			}
 		}

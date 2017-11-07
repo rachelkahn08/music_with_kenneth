@@ -16,6 +16,10 @@ select, option, input, button {
 	background-color:transparent;
 	appearance: none;
 	box-shadow: none;
+
+	&:focus {
+		outline: none;
+	}
 }
 
 .noiseElement {
