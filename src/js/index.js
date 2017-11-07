@@ -6,6 +6,20 @@ var reverbNode = audioCtx.createReverbFromUrl(reverbUrl, function() {
   reverbNode.connect(audioCtx.destination);
 });
 
+var url = 'http://localhost:3001';
+var socket = io.connect(url);
+
+
+socket.addEventListener('noteChange', (id)=>{
+    console.log('fired');
+    if(!document.getElementById(''+id).classList.contains('active')) {
+        document.getElementById(''+id).classList.add('active');
+        // sounds[id].play = true;
+    } else {
+        document.getElementById(''+id).classList.remove('active');
+        // sounds[id].play = false;
+    }
+});
 
 const frequencies = [	
 	130.81,
@@ -527,14 +541,8 @@ class Player {
 	}
 
 	switchOnOff(e) {
-		e.preventDefault();
-		let noteButton = this.noteButton;
-		if (noteButton.classList.contains('active')) {
-			noteButton.classList.remove('active');
-		} else {
-			noteButton.classList.add('active');
-		}
-		console.dir(this);
+		// e.preventDefault();
+		socket.emit('noteChange', e.target.id);
 	}
 }
 
@@ -640,5 +648,3 @@ var App = (function(params) {
 }());
 
 App.init();
-
-
